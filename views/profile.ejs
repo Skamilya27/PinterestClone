@@ -20,34 +20,35 @@
       <div class="w-32 h-32 bg-zinc-200 rounded-full overflow-hidden">
         <img
           class="w-full h-full object-cover"
-          src="https://images.unsplash.com/photo-1608889476561-6242cfdbf622?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src="../images/uploads/<%= user.profileImage %>"
           alt=""
         />
       </div>
     </div>
 
-    <h1 class="text-3xl font-semibold mt-5">Suman Kamilya</h1>
-    <h3 class="text-md">@username</h3>
+    <h1 class="text-3xl font-semibold mt-5"><%= user.name%></h1>
+    <h3 class="text-md">@<%= user.username%></h3>
     <a
       href="/edit"
       class="text-xs font-semibold px-7 py-2 bg-zinc-700 rounded-full mt-5"
       >Edit</a
     >
-    <button class="px-5 py-2 rounded-lg bg-red-700 text-xs font-medium mt-5">
+    <a href="/add" class="px-5 py-2 rounded-lg bg-red-700 text-xs font-medium mt-5">
       Add New Post
-    </button>
+    </a>
   </div>
   <div class="cards flex flex-wrap gap-10 px-10 mt-10">
     <div class="card">
+        
       <div class="w-52 h-40 bg-zinc-200 rounded-lg overflow-hidden">
         <img
           class="w-full h-full object-cover"
-          src="https://images.unsplash.com/photo-1604667466397-983050035939?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src="../images/uploads/<%= user?.posts[0]?.image %>"
           alt=""
         />
       </div>
-      <h3 class="text-xl font-semibold mt-3">All Pins</h3>
-      <h5 class="text-sm font-medium opacity-60">28 Pins</h5>
+      <a href="/show/posts" class="inline-block cursor-pointer text-xl font-semibold mt-3">Your Uploaded Pins</a>
+      <h5 class="text-sm font-medium opacity-60"><%= user.posts.length %></h5>
     </div>
   </div>
 </div>
