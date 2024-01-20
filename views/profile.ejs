@@ -17,28 +17,40 @@
       <div class="cardpers">
         <div class="profile-picture">
           <img
-            src="https://plus.unsplash.com/premium_photo-1698161179423-f4ea29053074?q=80&w=1955&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="https://images.unsplash.com/photo-1704439735567-11af78b213e3?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Profile Picture"
           />
         </div>
-        <h2 class="name">username</h2>
-        <h3 class="username">@username</h3>
-        <p class="tagline">Some tagline</p>
-        <p class="description">Some description</p>
-        <a href="#" class="button">Account Settings</a>
+        <h2 class="name"><%= user.fullname %></h2>
+        <h3 class="username">@<%= user.username %></h3>
+        <p class="tagline">Lorem ipsum dolor sit amet.</p>
+        <p class="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Suscipit!</p>
+        <a href="/logout" class="button">Logout</a>
+
+        <form action="/upload" method="post" enctype="multipart/form-data"> 
+            <input type="text" name="filecaption" placeholder="some caption">
+            <input type="file" name="file">
+            <input type="submit">
+        </form>
       </div>
 
       <div class="container">
-        <div class="card" style="width: 18rem">
-          <img
-            src="https://images.unsplash.com/photo-1682685795463-0674c065f315?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            class="card-img-top"
-            alt="..."
-          />
-          <div class="card-body">
-            <h5 class="card-title">All Designs</h5>
-          </div>
+        <div class="cards flex">
+            <% user.posts.forEach(function(post){ %>
+                <div class="card" style="width: 18rem">
+                    <img
+                      src="../images/uploads/<%= post.image %>"
+                      class="card-img-top"
+                      alt="..."
+                    />
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <%= post.imageText %></h5>
+                    </div>
+                  </div>
+            <% }) %>
         </div>
+        
       </div>
     </div>
 
