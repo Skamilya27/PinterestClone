@@ -2,39 +2,57 @@ var express = require("express");
 var router = express.Router();
 const userModel = require("./users");
 const postModel = require("./posts");
+const localStrategy = require('passport-local');
+const passport = require("passport");
+passport.use(new localStrategy(userModel.authenticate()));
 
-/* GET home page. */
 router.get("/", function (req, res, next) {
-  res.render("index", { title: "Express" });
+  res.render("index");
 });
 
-router.get("/createuser", async function (req, res, next) {
-  let createdUser = await userModel.create({
-    username: "Suman",
-    password: "suman",
-    posts: [],
-    email: "suman@gmail.com",
-    fullName: "Suman Kamilya",
-  });
-  res.send(createdUser);
-});
-
-router.get("/createpost", async (req, res) => {
-  let createdPost = await postModel.create({
-    postText: "hello Kese ho Saare",
-    user: "65ab6f26c788c88b376ecf3a",
-  });
-  let user = await userModel.findOne({ _id: "65ab6f26c788c88b376ecf3a" });
-  user.posts.push(createdPost._id);
-  await user.save();
-  res.send("SUCCESS");
-});
-
-router.get('/alluserposts', async (req, res) => {
-  let user = await userModel
-    .findOne({_id: "65ab6f26c788c88b376ecf3a"})
-    .populate('posts');
-  res.send(user)
+router.get('/login', (req, res) => {
+  res.render("login");
 })
+
+router.get('/profile', isLoggedIn, (req, res, next) => {
+  res.render("profile")
+})
+
+router.get('/feed', (req, res) => {
+  res.render("feed");
+})
+
+router.post("/register", async (req, res) => {
+  const { username, email, fullname } = req.body;
+  const userData = new userModel({
+    username,
+    email,
+    fullname,
+  });
+
+  userModel.register(userData, req.body.password)
+    .then(() => {
+      passport.authenticate("local")(req, res, () => {
+        res.redirect('/profile')
+      })
+    })
+});
+
+router.post('/login', passport.authenticate("local", {
+  successRedirect: '/profile',
+  failureRedirect: '/login'
+}))
+
+router.get('/logout', (req, res) => {
+  req.logout((err) => {
+    if(err) {return next(err);}
+    res.redirect('/');
+  })
+})
+
+function isLoggedIn(req, res, next) {
+  if(req.isAuthenticated()) return next();
+  res.redirect('/login')
+}
 
 module.exports = router;
